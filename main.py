@@ -121,8 +121,4 @@ for file in os.listdir(m_path):
     if file.endswith(".xml"):
         m_file = os.path.join(m_path, file)
         print(m_file)
-        break
-
-# print (m_file)
-
-read_content(m_file)
+        read_content(m_file)
