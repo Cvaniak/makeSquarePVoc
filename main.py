@@ -63,16 +63,16 @@ def read_content(xml_file):
             ymax = int(box.find("ymax").text)
             xmax = int(box.find("xmax").text)
 
-            ymin2 = int(box.find("ymin").text)-int(t_difference)
-            ymax2 = int(box.find("ymax").text)-int(t_difference)
+            xmin2 = int(box.find("xmin").text)-int(t_difference)
+            xmax2 = int(box.find("xmax").text)-int(t_difference)
 
         boxes2 = copy.deepcopy(boxes)
-        boxes2.find("bndbox").find('ymin').text = str(ymin2)
-        boxes2.find("bndbox").find('ymax').text = str(ymax2)
+        boxes2.find("bndbox").find('xmin').text = str(xmin2)
+        boxes2.find("bndbox").find('xmax').text = str(xmax2)
 
-        if ymax > t_smaller:
+        if xmax > t_smaller:
             m2_root.append(boxes2)
-        elif ymin < t_difference:
+        elif xmin < t_difference:
             m1_root.append(boxes)
         else:
             m1_root.append(boxes)
@@ -93,15 +93,16 @@ def read_content(xml_file):
     im = Image.open(m_name + ".png")
 
     # Setting the points for cropped image
-    left = 0
-    right = t_width
-    bottom1 = 0
-    top1 = t_height-t_difference
-    bottom2 = t_difference
-    top2 = t_height
+    bottom = 0
+    top = t_height
 
-    im1 = im.crop((left, bottom1, right, top1))
-    im2 = im.crop((left, bottom2, right, top2))
+    left1 = 0
+    right1 = t_width-t_difference
+    left2 = t_difference
+    right2 = t_width
+
+    im1 = im.crop((left1, bottom, right1, top))
+    im2 = im.crop((left2, bottom, right2, top))
     # im1.show()
     im1.save(m_name + "_1." + IMAGE_EXT)
     im2.save(m_name + "_2." + IMAGE_EXT)
